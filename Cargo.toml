@@ -1,5 +1,5 @@
 [package]
-name = "async_driver"
+name = "driver_async"
 version = "0.0.1"
 authors = ["AndrewGi <andrew@gilbrough.com>"]
 edition = "2018"
