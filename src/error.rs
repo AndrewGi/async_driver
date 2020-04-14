@@ -57,72 +57,29 @@ pub enum IOError {
 }
 
 impl Error for IOError {}
-#[cfg(feature = "winrt")]
-impl From<winrt::Error> for IOError {
-    fn from(e: winrt::Error) -> Self {
-        match e {
-            winrt::Error::OperationAborted => IOError::OperationAborted,
-            winrt::Error::AccessDenied => IOError::AccessDenied,
-            winrt::Error::UnspecifiedFailure => IOError::Unknown,
-            winrt::Error::InvalidHandle => IOError::InvalidHandlePointer,
-            winrt::Error::InvalidArgument => IOError::InvalidArgument,
-            winrt::Error::NoSuchInterface => IOError::NotFound,
-            winrt::Error::NotImplemented => IOError::NotImplemented,
-            winrt::Error::OutOfMemory => IOError::OutOfMemory,
-            winrt::Error::InvalidPointer => IOError::InvalidHandlePointer,
-            winrt::Error::UnexpectedFailure => IOError::Unknown,
-            winrt::Error::OutOfBounds => IOError::OutOfMemory,
-            winrt::Error::ChangedState => IOError::Other,
-            winrt::Error::IllegalMethodCall => IOError::IllegalCall,
-            winrt::Error::ObjectClosed => IOError::Closed,
-            winrt::Error::Other(i) => IOError::Code(i),
-        }
-    }
-}
 
-#[cfg(feature = "rusb")]
-impl From<rusb::Error> for IOError {
-    fn from(e: rusb::Error) -> Self {
-        match e {
-            rusb::Error::Success => unreachable!("success passed as error type"),
-            rusb::Error::Io => IOError::Other,
-            rusb::Error::InvalidParam => IOError::InvalidArgument,
-            rusb::Error::Access => IOError::AccessDenied,
-            rusb::Error::NoDevice => IOError::NotConnected,
-            rusb::Error::NotFound => IOError::NotFound,
-            rusb::Error::Busy => IOError::Refused,
-            rusb::Error::Timeout => IOError::TimedOut,
-            rusb::Error::Overflow => IOError::Overflow,
-            rusb::Error::Pipe => IOError::Pipe,
-            rusb::Error::Interrupted => IOError::Interrupted,
-            rusb::Error::NoMem => IOError::OutOfMemory,
-            rusb::Error::NotSupported => IOError::NotImplemented,
-            rusb::Error::Other => IOError::Other,
-        }
-    }
-}
 #[cfg(feature = "std")]
 impl From<std::io::ErrorKind> for IOError {
     fn from(e: std::io::ErrorKind) -> Self {
         match e {
-            ErrorKind::NotFound => IOError::NotFound,
-            ErrorKind::PermissionDenied => IOError::NotFound,
-            ErrorKind::ConnectionRefused => IOError::Refused,
-            ErrorKind::ConnectionReset => IOError::NotConnected,
-            ErrorKind::ConnectionAborted => IOError::NotConnected,
-            ErrorKind::NotConnected => IOError::NotConnected,
-            ErrorKind::AddrInUse => IOError::AlreadyExists,
-            ErrorKind::AddrNotAvailable => IOError::Refused,
-            ErrorKind::BrokenPipe => IOError::Closed,
-            ErrorKind::AlreadyExists => IOError::AlreadyExists,
-            ErrorKind::WouldBlock => IOError::Other,
-            ErrorKind::InvalidInput => IOError::InvalidArgument,
-            ErrorKind::InvalidData => IOError::InvalidData,
-            ErrorKind::TimedOut => IOError::TimedOut,
-            ErrorKind::WriteZero => IOError::InvalidArgument,
-            ErrorKind::Interrupted => IOError::Interrupted,
-            ErrorKind::Other => IOError::Other,
-            ErrorKind::UnexpectedEof => IOError::InvalidData,
+            std::io::ErrorKind::NotFound => IOError::NotFound,
+            std::io::ErrorKind::PermissionDenied => IOError::NotFound,
+            std::io::ErrorKind::ConnectionRefused => IOError::Refused,
+            std::io::ErrorKind::ConnectionReset => IOError::NotConnected,
+            std::io::ErrorKind::ConnectionAborted => IOError::NotConnected,
+            std::io::ErrorKind::NotConnected => IOError::NotConnected,
+            std::io::ErrorKind::AddrInUse => IOError::AlreadyExists,
+            std::io::ErrorKind::AddrNotAvailable => IOError::Refused,
+            std::io::ErrorKind::BrokenPipe => IOError::Closed,
+            std::io::ErrorKind::AlreadyExists => IOError::AlreadyExists,
+            std::io::ErrorKind::WouldBlock => IOError::Other,
+            std::io::ErrorKind::InvalidInput => IOError::InvalidArgument,
+            std::io::ErrorKind::InvalidData => IOError::InvalidData,
+            std::io::ErrorKind::TimedOut => IOError::TimedOut,
+            std::io::ErrorKind::WriteZero => IOError::InvalidArgument,
+            std::io::ErrorKind::Interrupted => IOError::Interrupted,
+            std::io::ErrorKind::Other => IOError::Other,
+            std::io::ErrorKind::UnexpectedEof => IOError::InvalidData,
             _ => IOError::Other,
         }
     }
