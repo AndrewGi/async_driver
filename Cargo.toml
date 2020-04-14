@@ -1,9 +1,10 @@
 [package]
 name = "async_driver"
-version = "0.1.0"
+version = "0.0.1g"
 authors = ["AndrewGi <andrew@gilbrough.com>"]
 edition = "2018"
-
+license = "GPL-3.0-only"
+readme = "README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [features]
 default = ["tokio_asyncs"]
