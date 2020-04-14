@@ -1,6 +1,6 @@
 [package]
 name = "async_driver"
-version = "0.0.1git"
+version = "0.0.1"
 authors = ["AndrewGi <andrew@gilbrough.com>"]
 edition = "2018"
 license = "GPL-3.0-only"
