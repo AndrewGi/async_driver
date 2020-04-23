@@ -3,7 +3,6 @@ use core::{
     pin::Pin,
     task::{Context, Poll},
 };
-
 pub struct Ready<T>(Option<T>);
 impl<T> Unpin for Ready<T> {}
 impl<T> Future for Ready<T> {
@@ -48,3 +47,5 @@ impl<T, Fut: Future, Funct: FnOnce(Fut::Output) -> T> Future for Map<Fut, Funct>
             })
     }
 }
+pub use futures_core::future::BoxFuture;
+pub use futures_core::future::LocalBoxFuture;

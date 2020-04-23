@@ -55,7 +55,11 @@ pub enum IOError {
     Other,
     Code(i32),
 }
-
+impl core::fmt::Display for IOError {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
 impl Error for IOError {}
 
 #[cfg(feature = "std")]
@@ -97,3 +101,6 @@ impl From<std::io::Error> for IOError {
         e.kind().into()
     }
 }
+
+#[cfg(feature = "std")]
+impl std::error::Error for IOError {}
