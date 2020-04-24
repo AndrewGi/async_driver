@@ -1,4 +1,3 @@
-use crate::error::Error;
 use core::future::Future;
 use core::pin::Pin;
 use core::task::Context;
@@ -57,7 +56,6 @@ pub fn timeout<T, F: Future<Output = T>>(duration: Duration, future: F) -> Timeo
 
 #[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Debug, Default)]
 pub struct TimeoutError(());
-impl Error for TimeoutError {}
 pub struct TimeoutFuture<F: Future> {
     future: F,
     delay: Delay,
