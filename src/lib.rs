@@ -1,6 +1,5 @@
 pub mod asyncs;
-//mod bytes;
-//mod error;
+pub mod time;
 extern crate alloc;
 
 /// Basic `ConversionError` for when primitives can't be converted to/from bytes because of invalid
