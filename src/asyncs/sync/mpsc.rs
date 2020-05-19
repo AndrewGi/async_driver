@@ -1,9 +1,9 @@
+use core::pin::Pin;
 use core::task::{Context, Poll};
 use futures_core::Stream;
-use tokio::macros::support::Pin;
-
 #[derive(Copy, Clone)]
 pub struct TryRecvError(());
+#[derive(Copy, Clone, Hash, Debug)]
 pub enum TrySendError<T> {
     Full(T),
     Closed(T),
@@ -88,11 +88,20 @@ impl<T> Stream for Receiver<T> {
     }
 }
 
+impl<T> core::fmt::Debug for Receiver<T> {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        write!(f, "Receiver<T>")
+    }
+}
 pub struct Sender<T>(mpsc_impl::SenderImpl<T>);
-
 impl<T> Clone for Sender<T> {
     fn clone(&self) -> Self {
         Self(self.0.clone())
+    }
+}
+impl<T> core::fmt::Debug for Sender<T> {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        write!(f, "Sender<T>")
     }
 }
 impl<T> Sender<T> {
