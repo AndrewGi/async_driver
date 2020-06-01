@@ -9,7 +9,7 @@ readme = "README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [features]
 default = ["tokio_asyncs"]
-tokio_asyncs = ["tokio/time", "tokio/sync", "tokio/rt-core", "std"]
+tokio_asyncs = ["tokio/time", "tokio/sync", "tokio/rt-core", "tokio/rt-util", "tokio/rt-threaded", "std"]
 async-std_asyncs = ["std", "async-std/std"]
 std = ["futures-io/std", "futures-util/std"]
 
