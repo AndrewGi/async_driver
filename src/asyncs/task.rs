@@ -43,3 +43,26 @@ impl<T> Future for JoinHandle<T> {
         unsafe { self.map_unchecked_mut(|s| &mut s.0) }.poll(cx)
     }
 }
+/// Yield the task back to the executor. Just returns `Poll::Pending` once and calls
+/// `.waker_by_ref()` to put the task back onto the queue. Workaround for blocking futures
+pub async fn yield_now() {
+    struct YieldNow {
+        yielded: bool,
+    }
+
+    impl Future for YieldNow {
+        type Output = ();
+
+        fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<()> {
+            if self.yielded {
+                return Poll::Ready(());
+            }
+
+            self.yielded = true;
+            cx.waker().wake_by_ref();
+            Poll::Pending
+        }
+    }
+
+    YieldNow { yielded: false }.await
+}
