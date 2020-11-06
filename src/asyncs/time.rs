@@ -8,10 +8,10 @@ pub use core::time::Duration;
 pub mod time_impl {
     use super::{Context, Duration, Future, Pin, Poll};
 
-    pub struct DelayImpl(tokio::time::Delay);
+    pub struct DelayImpl(tokio::time::Sleep);
     impl DelayImpl {
         pub fn new(duration: Duration) -> Self {
-            Self(tokio::time::delay_for(duration))
+            Self(tokio::time::sleep(duration))
         }
         pub fn reset(&mut self, dur: Duration) {
             self.0.reset(tokio::time::Instant::now() + dur)
