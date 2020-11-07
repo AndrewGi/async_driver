@@ -57,10 +57,10 @@ pub mod mpsc_impl {
         }
     }
     impl<T> SenderImpl<T> {
-        pub fn try_send(&mut self, message: T) -> Result<(), TrySendError<T>> {
+        pub fn try_send(&self, message: T) -> Result<(), TrySendError<T>> {
             self.0.try_send(message).map_err(TrySendError::from)
         }
-        pub async fn send(&mut self, message: T) -> Result<(), SendError<T>> {
+        pub async fn send(&self, message: T) -> Result<(), SendError<T>> {
             self.0.send(message).await.map_err(|e| SendError(e.0))
         }
     }
@@ -109,10 +109,10 @@ impl<T> core::fmt::Debug for Sender<T> {
     }
 }
 impl<T> Sender<T> {
-    pub async fn send(&mut self, message: T) -> Result<(), SendError<T>> {
+    pub async fn send(&self, message: T) -> Result<(), SendError<T>> {
         self.0.send(message).await
     }
-    pub fn try_send(&mut self, message: T) -> Result<(), TrySendError<T>> {
+    pub fn try_send(&self, message: T) -> Result<(), TrySendError<T>> {
         self.0.try_send(message)
     }
 }
