@@ -2,7 +2,7 @@ use core::future::Future;
 use core::pin::Pin;
 use core::task::{Context, Poll};
 #[cfg(feature = "tokio_asyncs")]
-pub mod task_impl {
+mod task_impl {
     use super::{Context, Future, Pin, Poll};
 
     pub struct JoinHandleImpl<T>(tokio::task::JoinHandle<T>);
@@ -41,6 +41,9 @@ pub fn spawn_local<T: 'static, F: Future<Output = T> + 'static>(future: F) -> Jo
 }
 pub fn block_in_place<R, F: FnOnce() -> R>(f: F) -> R {
     task_impl::block_in_place(f)
+}
+pub fn block_on_future<F: Future>(f: F) -> F::Output {
+    block_in_place(move || futures_executor::block_on(f))
 }
 pub struct JoinHandle<T>(task_impl::JoinHandleImpl<T>);
 impl<T> Future for JoinHandle<T> {
