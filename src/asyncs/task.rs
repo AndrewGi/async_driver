@@ -26,6 +26,10 @@ pub mod task_impl {
     ) -> JoinHandleImpl<T> {
         JoinHandleImpl(tokio::task::spawn_local(future))
     }
+
+    pub fn block_in_place<R, F: FnOnce() -> R>(f: F) -> R {
+        tokio::task::block_in_place(f)
+    }
 }
 pub fn spawn<T: Send + 'static, F: Future<Output = T> + Send + 'static>(
     future: F,
@@ -34,6 +38,9 @@ pub fn spawn<T: Send + 'static, F: Future<Output = T> + Send + 'static>(
 }
 pub fn spawn_local<T: 'static, F: Future<Output = T> + 'static>(future: F) -> JoinHandle<T> {
     JoinHandle(task_impl::spawn_local(future))
+}
+pub fn block_in_place<R, F: FnOnce() -> R>(f: F) -> R {
+    task_impl::block_in_place(f)
 }
 pub struct JoinHandle<T>(task_impl::JoinHandleImpl<T>);
 impl<T> Future for JoinHandle<T> {
